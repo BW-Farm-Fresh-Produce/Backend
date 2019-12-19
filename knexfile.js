@@ -2,12 +2,24 @@
 
 module.exports = {
 
-  development: {
-    client: 'sqlite3',
-    connection: {
-      filename: './dev.sqlite3'
-    }
-  },
+     development: {
+       client: "sqlite3",
+       connection: {
+         filename: "./database/development/freshFarms.db3"
+       },
+       useNullAsDefault: true,
+       pool: {
+         afterCreate: (conn, done) => {
+           conn.run("PRAGMA foreign_keys = ON", done);
+         }
+       },
+       migrations: {
+         directory: "./database/development/migrations"
+       },
+       seeds: {
+         directory: "./database/development/seeds"
+       }
+     },
 
   staging: {
     client: 'postgresql',
