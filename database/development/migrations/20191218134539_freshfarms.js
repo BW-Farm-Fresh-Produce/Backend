@@ -11,12 +11,16 @@ exports.up = function(knex) {
         .createTable('seller', seller => {
             seller.increments('seller_id');
             seller.string('farm_name');
-            seller.string('location');
+            seller.string('location')
+                .notNullable()
+                .references('location')
+                .inTable('users')
+                .onUpdate('CASCADE')
+                .onDelete('CASCADE');;
         })
         .createTable('buyer', buyer => {
             buyer.increments('buyer_id');
             buyer.string('name', 255);
-            buyer.string('location', 255);
         })
         .createTable('products', product => {
             product.increments('product_id');
