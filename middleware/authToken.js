@@ -6,7 +6,7 @@ module.exports = (req, res, next) => {
     const token = req.heders.authorization;
     console.log(req.headers, token);
 
-    if (req.decodedJwt && req.decodedJwt.payload.role === "farmer") {
+    if (req.decodedJwt && req.decodedJwt.payload.role) {
         next();
     } else if (token) {
         jwt.verify(token, secrets.jwtSecret, (err, decodedJwt) => {

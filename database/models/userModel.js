@@ -5,12 +5,15 @@ const find = () => {
 }
 
 const findByUser = (user) => {
-    return db('users').where('username', user);
+    return db('users').select('*').where('username', user);
 }
 
 const addUser = (userObj) => {
     return db('users').insert(userObj);
 }
 
-
-module.exports = { find, findByUser, addUser };
+module.exports = {
+    find,
+    findByUser,
+    addUser
+}
