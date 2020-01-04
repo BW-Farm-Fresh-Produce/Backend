@@ -13,5 +13,8 @@ server.use(cors());
 
 // use routes here
 server.use('/auth', AuthRouter);
+server.get('/', (req, res) => {
+    res.send("hi");
+})
 
 module.exports = server;
