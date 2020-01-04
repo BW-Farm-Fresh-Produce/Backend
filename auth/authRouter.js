@@ -11,16 +11,36 @@ Router.post('/register', (req, res) => {
     const hash = bycrypt.hashSync(user.password, 10);
     user.password = hash;
 
-    userModel.addUser(user)
-        .then(users => {
-            res.status(201).json({ users, message: `Successfully created user: ${user.username} the ${user.role}` })
-        })
-        .catch(err => {
-            res.status(500).json({
-                err,
-                message: 'serverr error, failed to create user'
-            });
-        })
+    if (user.role !== 'farmer') {
+        userModel.addUser(user)
+            .then(users => {
+                res.status(201).json({ users, message: `Successfully created user: ${user.username} the ${user.role}` })
+            })
+            .catch(err => {
+                res.status(500).json({
+                    err,
+                    message: 'serverr error, failed to create user'
+                });
+            })
+    } else {
+        (user.location && user.farm_name)
+            ?
+            userModel.addUser(user)
+                .then(users => {
+                    res.status(201).json({ users, message: `Successfully created user: ${user.username} the ${user.role}` })
+                })
+                .catch(err => {
+                    res.status(500).json({
+                        err,
+                        message: 'serverr error, failed to create user'
+                    });
+                })
+            :
+            res.status(400).json({ message: "bad request" })
+
+    }
+
+
 
 })
 
@@ -35,9 +55,9 @@ Router.post('/login', (req, res) => {
             res.status(200).json({ username: item[0].username, token: token });
         }
     })
-    .catch(err => {
-        res.status(500).json({err, message:"Server issue"});
-    });
+        .catch(err => {
+            res.status(500).json({ err, message: "Server issue" });
+        });
 })
 
 function genToken(user) {
