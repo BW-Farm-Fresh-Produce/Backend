@@ -11,7 +11,7 @@ const getProduct = (product) => {
 const getAllProductsByFarmer = (farmerId) => {
     return db.select('*').from('products')
         .join('users', 'products.farmer_id', 'users.farmer_id')
-        .where('products.farmer_id', farmerId);
+        // .where('products.farmer_id', farmerId);
 }
 
 
