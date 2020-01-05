@@ -15,6 +15,23 @@ Router.get('/products', isFarmer, (req, res) => {
         });
 })
 
+Router.get('/', isFarmer, (req, res) => {
+    console.log(req.decodedJwt.uid)
+    ProductDb.getAllProductsByFarmer(req.decodedJwt.uid)
+        .then(product => {
+            res.status(200).json({
+                product,
+                message: "success"
+            })
+        })
+        .catch(err => {
+            res.status(500).json({
+                err,
+                message: "server error"
+            })
+        });
+})
+
 Router.post('/', isFarmer, (req, res) => {
     const body = req.body
 

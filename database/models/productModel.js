@@ -8,6 +8,13 @@ const getProduct = (product) => {
     return db('products').select('*')
 }
 
+const getAllProductsByFarmer = (farmerId) => {
+    return db.select('*').from('products')
+        .leftJoin('users', 'products.farmer_id', 'users.farmer_id')
+        .where('farmer_id', farmerId);
+}
+
+
 const addProduct = (product) => {
     return db('products').insert(product);
 }
@@ -15,5 +22,6 @@ const addProduct = (product) => {
 module.exports = {
     getAllProducts,
     getProduct,
-    addProduct
+    addProduct,
+    getAllProductsByFarmer
 }

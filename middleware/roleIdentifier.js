@@ -5,9 +5,7 @@ const secrets = require('../config/sercrets.js');
 const isFarmer = (req, res, next) => {
     const token = req.headers.authorization;
     const body = req.body
-    console.log(req.decodedJwt);
     if (req.decodedJwt && req.decodedJwt.role === 'farmer') {
-        console.log('hi', req.decodedJwt)
         req.body = {
             ...body,
             farmer_id: req.decodedJwt.uid
@@ -23,8 +21,6 @@ const isFarmer = (req, res, next) => {
                 // if it DOES...
             } else {
                 req.decodedJwt = decodedJwt;
-                console.log('hi1', req.decodedJwt)
-
                 req.body = {
                     ...body,
                     farmer_id: req.decodedJwt.uid
