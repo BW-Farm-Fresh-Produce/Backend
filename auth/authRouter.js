@@ -6,6 +6,7 @@ const secrets = require('../config/sercrets.js');
 //data model for users
 const userModel = require('../database/models/userModel.js');
 
+
 Router.post('/register', (req, res) => {
     let user = req.body;
     const hash = bycrypt.hashSync(user.password, 10);
@@ -17,9 +18,9 @@ Router.post('/register', (req, res) => {
                 res.status(201).json({ users, message: `Successfully created user: ${user.username} the ${user.role}` })
             })
             .catch(err => {
-                res.status(500).json({
+                res.status(400).json({
                     err,
-                    message: 'serverr error, failed to create user'
+                    message: err.errno === 19 ? 'User exists' : "Server error"
                 });
             })
     } else {
@@ -30,13 +31,13 @@ Router.post('/register', (req, res) => {
                     res.status(201).json({ users, message: `Successfully created user: ${user.username} the ${user.role}` })
                 })
                 .catch(err => {
-                    res.status(500).json({
+                    res.status(400).json({
                         err,
-                        message: 'serverr error, failed to create user'
+                        message: err.errno === 19 ? 'User exists' : "Server error"
                     });
                 })
             :
-            res.status(400).json({ message: "bad request" })
+            res.status(500).json({ message: "server error" })
 
     }
 });
@@ -59,6 +60,8 @@ Router.post('/login', (req, res) => {
         if (item && bycrypt.compareSync(password, item[0].password)) {
             const token = genToken(item[0]);
             res.status(200).json({ username: item[0].username, token: token });
+        } else {
+            res.status(401).json({message: "Invalid credentials"})
         }
     })
         .catch(err => {
