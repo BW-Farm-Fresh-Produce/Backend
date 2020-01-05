@@ -12,7 +12,7 @@ exports.up = function (knex) {
         })
         .createTable('products', product => {
             product.increments('product_id');
-            product.string('product_name', 255)
+            product.string('product_name')
                 .notNullable();
             product.string('price')
                 .notNullable();
@@ -22,7 +22,7 @@ exports.up = function (knex) {
                 .unsigned()
                 .notNullable()
                 .references('farmer_id')
-                .inTable('schemes')
+                .inTable('users')
                 .onUpdate('CASCADE')
                 .onDelete('CASCADE');
 
