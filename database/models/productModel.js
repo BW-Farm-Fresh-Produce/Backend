@@ -9,9 +9,10 @@ const getProduct = (product) => {
 }
 
 const getAllProductsByFarmer = (farmerId) => {
-    return db.select('*').from('products')
+    return db('products')
         .join('users', 'products.farmer_id', 'users.farmer_id')
-        // .where('products.farmer_id', farmerId);
+        .select('*')
+        .where('products.farmer_id', farmerId);
 }
 
 
