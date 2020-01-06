@@ -29,20 +29,20 @@ exports.up = function (knex) {
         .createTable('shoppingCart', cart => {
             cart.increments("item_id");
             cart.integer('product_id')
-            .unsigned()
-            .notNullable()
-            .references('product_id')
-            .inTable('product_id')
-            .onUpdate('CASCADE')
-            .onDelete('CASCADE')
-            cart.integer('user_id')
+                .unsigned()
+                .notNullable()
+                .references('product_id')
+                .inTable('product_id')
+                .onUpdate('CASCADE')
+                .onDelete('CASCADE')
+            cart.integer('consumer_id')
                 .unsigned()
                 .notNullable()
                 .references('uid')
                 .inTable('users')
                 .onUpdate('CASCADE')
                 .onDelete('CASCADE')
-        } )
+        })
 };
 
 exports.down = function (knex) {
