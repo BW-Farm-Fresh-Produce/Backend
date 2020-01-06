@@ -2,7 +2,7 @@ const Router = require('express').Router();
 const ProductDb = require('../database/models/productModel.js');
 const { isFarmer } = require('../middleware/roleIdentifier.js');
 
-Router.get('/products', isFarmer, (req, res) => {
+Router.get('/products', (req, res) => {
     ProductDb.getAllProducts()
         .then(product => {
             res.status(200).json({ product, message: "success" })
@@ -16,7 +16,6 @@ Router.get('/products', isFarmer, (req, res) => {
 })
 
 Router.get('/', isFarmer, (req, res) => {
-    console.log(req.decodedJwt.uid)
     ProductDb.getAllProductsByFarmer(req.decodedJwt.uid)
         .then(product => {
             res.status(200).json({

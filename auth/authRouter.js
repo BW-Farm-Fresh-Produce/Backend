@@ -6,6 +6,7 @@ const secrets = require('../config/sercrets.js');
 //data model for users
 const userModel = require('../database/models/userModel.js');
 
+
 Router.post('/register', (req, res) => {
     let user = req.body;
     const hash = bycrypt.hashSync(user.password, 10);
@@ -14,12 +15,16 @@ Router.post('/register', (req, res) => {
     if (user.role !== 'farmer') {
         userModel.addUser(user)
             .then(users => {
-                res.status(201).json({ users, message: `Successfully created user: ${user.username} the ${user.role}` })
+                res.status(201).json(
+                    {
+                        users,
+                        message: `Successfully created user: ${user.username} the ${user.role}`
+                    })
             })
             .catch(err => {
-                res.status(500).json({
+                res.status(400).json({
                     err,
-                    message: 'serverr error, failed to create user'
+                    message: err.errno === 19 ? 'User exists' : "Server error"
                 });
             })
     } else {
@@ -30,35 +35,35 @@ Router.post('/register', (req, res) => {
                     res.status(201).json({ users, message: `Successfully created user: ${user.username} the ${user.role}` })
                 })
                 .catch(err => {
-                    res.status(500).json({
+                    res.status(400).json({
                         err,
-                        message: 'serverr error, failed to create user'
+                        message: err.errno === 19 ? 'User exists' : "Server error"
                     });
                 })
             :
-            res.status(400).json({ message: "bad request" })
+            res.status(500).json({ message: "server error" })
 
     }
 });
 
-Router.get('/users', (req,res) => {
+Router.get('/users', (req, res) => {
     userModel.find()
-    .then(users => {
-        res.status(200).json({users,message:"success"});
-    })
-    .catch(err => {
-        res.status(500).json({err, message:"server error"})
-    })
+        .then(users => {
+            res.status(200).json({ users, message: "success" });
+        })
+        .catch(err => {
+            res.status(500).json({ err, message: "server error" })
+        })
 })
 
 Router.post('/login', (req, res) => {
     let { username, password } = req.body;
-    console.log(req.body)
-    // console.log(userModel.findByUser(username))
     userModel.findByUser(username).then(item => {
         if (item && bycrypt.compareSync(password, item[0].password)) {
             const token = genToken(item[0]);
             res.status(200).json({ username: item[0].username, token: token });
+        } else {
+            res.status(401).json({ message: "Invalid credentials" })
         }
     })
         .catch(err => {
@@ -69,7 +74,7 @@ Router.post('/login', (req, res) => {
 function genToken(user) {
     // create the payload...
     const payload = {
-        uid: user.farmer_id,
+        uid: user.uid,
         username: user.username,
         role: user.role
     };
@@ -79,7 +84,6 @@ function genToken(user) {
     };
 
     const token = jwt.sign(payload, secrets.jwtSecret, options);
-    console.log(token);
     return token;
 }
 module.exports = Router;
