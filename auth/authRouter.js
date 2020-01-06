@@ -72,7 +72,7 @@ Router.post('/login', (req, res) => {
 function genToken(user) {
     // create the payload...
     const payload = {
-        uid: user.farmer_id,
+        uid: user.uid,
         username: user.username,
         role: user.role
     };
