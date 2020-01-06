@@ -2,7 +2,7 @@ const db = require('../../config/dbConfig.js');
 
 const getAllProducts = () => {
     return db('products')
-        .join('users', 'products.farmer_id', 'users.farmer_id')
+        .join('users', 'products.farmer_id', 'users.uid')
         .select('products.product_name',
             'products.price',
             'products.quantity',
@@ -17,7 +17,7 @@ const getProduct = (product) => {
 
 const getAllProductsByFarmer = (farmerId) => {
     return db('products')
-        .join('users', 'products.farmer_id', 'users.farmer_id')
+        .join('users', 'products.farmer_id', 'users.uid')
         .select('products.product_name', 'products.price', 'products.quantity', 'users.farm_name', 'users.location', 'products.farmer_id')
         .where('products.farmer_id', farmerId);
 }
