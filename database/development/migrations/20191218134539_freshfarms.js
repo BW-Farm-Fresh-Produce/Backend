@@ -28,27 +28,25 @@ exports.up = function (knex) {
         })
         .createTable('shoppingCart', cart => {
             cart.increments("item_id");
-            cart.integer('product_id')
-                .unsigned()
-                .notNullable()
-                .references('product_id')
-                .inTable('product_id')
-                .onUpdate('CASCADE')
-                .onDelete('CASCADE')
+            cart.string('item_name')
+                .notNullable();
+            cart.string('price')
+                .notNullable();
+            cart.string('quantity')
+                .notNullable();
             cart.integer('consumer_id')
                 .unsigned()
                 .notNullable()
                 .references('uid')
                 .inTable('users')
                 .onUpdate('CASCADE')
-                .onDelete('CASCADE')
-        })
+                .onDelete('CASCADE');        
+            })
 };
 
 exports.down = function (knex) {
     return knex.schema
+        .dropTableIfExists('shoppingCart')
         .dropTableIfExists('products')
         .dropTableIfExists('users')
-
-
 };
