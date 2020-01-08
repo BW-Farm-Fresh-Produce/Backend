@@ -7,7 +7,10 @@ exports.up = function (knex) {
                 .unique();
             user.string('password', 255).notNullable();
             user.string('role').notNullable();
-            user.string('location');
+            user.string('address').notNullable();
+            user.string('city').notNullable();
+            user.string('state').notNullable();
+            user.integer('zip').notNullable();
             user.string('farm_name');
         })
         .createTable('products', product => {
