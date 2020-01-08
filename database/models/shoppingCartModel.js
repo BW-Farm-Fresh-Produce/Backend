@@ -24,11 +24,13 @@ const addItem = (item) => {
 const deleteAllItemByID = (consumerId => {
     return db('shoppingCart')
         .where('consumer_id', consumerId)
+        .del()
 })
 
 const delteItemByID = (itemId => {
     return db('shoppingCart')
         .where('item_id', itemId)
+        .del
 })
 
 module.exports = {
