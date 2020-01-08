@@ -41,6 +41,35 @@ Router.post('/', isFarmer, (req, res) => {
         .catch(err => {
             res.status(500).json({ err, message: "server error" })
         })
+});
+
+Router.put('/:id', isFarmer, (req, res) => {
+
+    // console.log(ProductDb.updateProduct(req.params, req.body))
+
+    ProductDb.updateProduct(req.params.id, req.body)
+        .then(product => {
+            res.status(201).json({ product, message: "updated" })
+        })
+        .catch(err => {
+            res.status(500).json({
+                err,
+                message: "you gon messed up"
+            })
+        })
+});
+
+Router.delete('/:id', isFarmer, (req, res) => {
+    ProductDb.deleteProductByID(req.params.id)
+        .then(product => {
+            res.status(200).json({ product, message: `product deleted` })
+        })
+        .catch(err => {
+            res.status(500).json({
+                err,
+                message: "server error"
+            })
+        })
 })
 
 
