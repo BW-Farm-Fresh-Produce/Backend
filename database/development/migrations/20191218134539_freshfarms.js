@@ -16,7 +16,9 @@ exports.up = function (knex) {
                 .notNullable();
             product.string('price')
                 .notNullable();
-            product.string('quantity')
+            product.float('quantity')
+                .notNullable();
+            product.string('quantity_type')
                 .notNullable();
             product.integer('farmer_id')
                 .unsigned()
@@ -32,7 +34,9 @@ exports.up = function (knex) {
                 .notNullable();
             cart.string('price')
                 .notNullable();
-            cart.string('quantity')
+            cart.float('quantity')
+                .notNullable();
+            cart.string('quantity_type')
                 .notNullable();
             cart.integer('consumer_id')
                 .unsigned()
