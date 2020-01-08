@@ -30,7 +30,7 @@ const deleteAllItemByID = (consumerId => {
 const delteItemByID = (itemId => {
     return db('shoppingCart')
         .where('item_id', itemId)
-        .del
+        .del()
 })
 
 module.exports = {
