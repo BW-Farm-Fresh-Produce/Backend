@@ -12,6 +12,8 @@ Router.post('/register', (req, res) => {
     const hash = bycrypt.hashSync(user.password, 10);
     user.password = hash;
 
+    console.log(user);
+
     if (user.role !== 'farmer') {
         userModel.addUser(user)
             .then(users => {
@@ -28,7 +30,7 @@ Router.post('/register', (req, res) => {
                 });
             })
     } else {
-        (user.location && user.farm_name)
+        (user.address && user.farm_name)
             ?
             userModel.addUser(user)
                 .then(users => {

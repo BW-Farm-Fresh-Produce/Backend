@@ -7,7 +7,10 @@ exports.up = function (knex) {
                 .unique();
             user.string('password', 255).notNullable();
             user.string('role').notNullable();
-            user.string('location');
+            user.string('address').notNullable();
+            user.string('city').notNullable();
+            user.string('state').notNullable();
+            user.integer('zip').notNullable();
             user.string('farm_name');
         })
         .createTable('products', product => {
@@ -16,7 +19,9 @@ exports.up = function (knex) {
                 .notNullable();
             product.string('price')
                 .notNullable();
-            product.string('quantity')
+            product.float('quantity')
+                .notNullable();
+            product.string('quantity_type')
                 .notNullable();
             product.integer('farmer_id')
                 .unsigned()
@@ -32,7 +37,9 @@ exports.up = function (knex) {
                 .notNullable();
             cart.string('price')
                 .notNullable();
-            cart.string('quantity')
+            cart.float('quantity')
+                .notNullable();
+            cart.string('quantity_type')
                 .notNullable();
             cart.integer('consumer_id')
                 .unsigned()
