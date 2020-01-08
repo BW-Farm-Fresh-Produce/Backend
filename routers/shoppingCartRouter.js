@@ -32,5 +32,22 @@ Router.post('/', isConsumer, (req, res) => {
         })
 })
 
+Router.delete('/items/:id', isConsumer, (req, res) => {
+    CartModel.delteItemByID(req.params.id)
+        .then(items => {
+            res.status(200).json({
+                items,
+                message: 'item deleted'
+            })
+        })
+        .catch(err => {
+            res.status(500).json({
+                err,
+                message: 'server error'
+            })
+        });
+});
+
+
 
 module.exports = Router
