@@ -3,7 +3,8 @@ const db = require('../../config/dbConfig.js');
 const getCartByUser = (userId) => {
     return db('shoppingCart')
         .join('users', 'shoppingCart.consumer_id', 'users.uid')
-        .select('shoppingCart.item_name',
+        .select('shoppingCart.item_id',
+            'shoppingCart.item_name',
             'shoppingCart.price',
             'shoppingCart.quantity',
             'shoppingCart.quantity_type',
