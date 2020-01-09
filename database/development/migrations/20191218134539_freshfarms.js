@@ -47,12 +47,31 @@ exports.up = function (knex) {
                 .references('uid')
                 .inTable('users')
                 .onUpdate('CASCADE')
-                .onDelete('CASCADE');        
-            })
+                .onDelete('CASCADE');
+        })
+        .createTable('orders', order => {
+            order.increments('order_id');
+            order.string('order_name');
+            order.integer('consumer_id')
+                .unsigned()
+                .notNullable()
+                .references('uid')
+                .inTable('users')
+                .onUpdate('CASCADE')
+                .onDelete('CASCADE');
+            order.integer('farmer_id')
+                .unsigned()
+                .notNullable()
+                .references('uid')
+                .inTable('users')
+                .onUpdate('CASCADE')
+                .onDelete('CASCADE');
+        })
 };
 
 exports.down = function (knex) {
     return knex.schema
+        .dropTableIfExists('orders')
         .dropTableIfExists('shoppingCart')
         .dropTableIfExists('products')
         .dropTableIfExists('users')
