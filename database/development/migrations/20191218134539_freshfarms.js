@@ -52,6 +52,10 @@ exports.up = function (knex) {
         .createTable('orders', order => {
             order.increments('order_id');
             order.string('order_name');
+            order.float('quantity')
+                .notNullable();
+            order.string('quantity_type')
+                .notNullable();
             order.integer('consumer_id')
                 .unsigned()
                 .notNullable()
