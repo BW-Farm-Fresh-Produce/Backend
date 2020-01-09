@@ -11,6 +11,9 @@ const getOrdersByFarmerId = () => {
         .select(
             'orders.order_id',
             'orders.order_name',
+            'orders.quantity',
+            'orders.quantity_type',
+            'orders.farmer_id',
             'users.address',
             'users.city',
             'users.state',
@@ -25,6 +28,9 @@ const getOrders = (farmerId) => {
         .select(
             'orders.order_id',
             'orders.order_name',
+            'orders.quantity',
+            'orders.quantity_type',
+            'orders.farmer_id',
             'users.address',
             'users.city',
             'users.state',
